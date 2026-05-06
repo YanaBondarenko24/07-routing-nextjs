@@ -3,6 +3,7 @@ import css from './NotePreview.module.css'
 import { useRouter,useParams } from "next/navigation";
 import { fetchNoteById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
+import { createPortal } from 'react-dom';
 
 export default function NotePreviewClient() {
     const router = useRouter();
@@ -16,7 +17,7 @@ export default function NotePreviewClient() {
 
     if (error || !data) return <p>Something went wrong.</p>;
 
-  return (
+  return createPortal(
     <div
       style={{
         position: "fixed",
@@ -42,6 +43,6 @@ export default function NotePreviewClient() {
       <button className={css.backBtn } onClick={() => router.back()}>Close</button>
 	</div>
 </div>
-      </div>
+      </div>,document.body
   );
 }

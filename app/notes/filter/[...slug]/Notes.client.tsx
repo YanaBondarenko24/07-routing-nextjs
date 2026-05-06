@@ -17,15 +17,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
 type Props = {
-  query: string;
-  page: number;
   tag?: NoteTag;
 };
 
-export default function NotesClient({ query, page, tag }: Props) {
+export default function NotesClient({ tag }: Props) {
    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState(page);
-    const [search, setSearch] = useState(query)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState('')
     const {data,isError,isLoading,isSuccess} = useQuery({
         queryKey: ['notes', search, currentPage,tag],
         queryFn: () => fetchNotes(search,currentPage,tag),
