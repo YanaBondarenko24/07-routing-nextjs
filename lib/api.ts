@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Note } from '../types/note';
+import type { Note,NoteTag } from '../types/note';
 import type { NoteFormValues } from '../components/NoteForm/NoteForm';
 
 const BASE_URL = "https://notehub-public.goit.study/api";
@@ -11,7 +11,7 @@ interface FetchNotesProps{
     totalPages: number;
 }
 
-export async function fetchNotes(query:string, page:number) {
+export async function fetchNotes(query:string, page:number, ) {
     const res = await axios.get<FetchNotesProps>(`${BASE_URL}/notes`, {
         headers: {
             Authorization: `Bearer ${myKey}`
@@ -19,6 +19,7 @@ export async function fetchNotes(query:string, page:number) {
         params: {
             search: query,
             page,
+            
         }
     })
     return res.data;
@@ -62,4 +63,18 @@ export async function fetchNoteById (id:string) {
   )
   console.log(res.data);
   return res.data;
+}
+
+export async function getNotes(tag?:NoteTag) {
+    const res = await axios.get<FetchNotesProps>(`${BASE_URL}/notes`, {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        },
+        params: 
+            tag ? { tag } : undefined
+        
+    })
+    console.log(res.data);
+    return res.data;
+   ;
 }
