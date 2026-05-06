@@ -11,7 +11,7 @@ interface FetchNotesProps{
     totalPages: number;
 }
 
-export async function fetchNotes(query?:string, page?:number,tag?:NoteTag ) {
+export async function fetchNotes(query:string, page:number,tag?:NoteTag ) {
     const res = await axios.get<FetchNotesProps>(`${BASE_URL}/notes`, {
         headers: {
             Authorization: `Bearer ${myKey}`
@@ -19,8 +19,7 @@ export async function fetchNotes(query?:string, page?:number,tag?:NoteTag ) {
         params: {
             search: query,
             page,
-            params: 
-            tag ? { tag } : undefined
+            ...(tag ? { tag } : {}),
             
         }
     })
@@ -63,20 +62,7 @@ export async function fetchNoteById (id:string) {
         },
     }
   )
-  console.log(res.data);
+
   return res.data;
 }
 
-/* export async function getNotes(tag?:NoteTag) {
-    const res = await axios.get<FetchNotesProps>(`${BASE_URL}/notes`, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        },
-        params: 
-            tag ? { tag } : undefined
-        
-    })
-    console.log(res.data);
-    return res.data;
-   ;
-} */

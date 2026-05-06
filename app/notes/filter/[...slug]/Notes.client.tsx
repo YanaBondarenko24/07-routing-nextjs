@@ -1,8 +1,7 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
-import {fetchNotes } from '@/lib/api';
+import { fetchNotes } from '@/lib/api';
 import { useDebouncedCallback } from 'use-debounce'
 import SearchBox from '@/components/SearchBox/SearchBox';
 import css from '@/app/notes/page.module.css'
@@ -10,21 +9,26 @@ import { keepPreviousData, useQuery} from '@tanstack/react-query'
 import NoteList from '@/components/NoteList/NoteList';
 import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
-
+import type { NoteTag } from '@/types/note';
 
 import Pagination from '@/components/Pagination/Pagination';
 import Loader from '@/components/Loader/Loader';
 import toast, { Toaster } from 'react-hot-toast';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
+type Props = {
+  query: string;
+  page: number;
+  tag?: NoteTag;
+};
 
-export default function NotesClient() {
+export default function NotesClient({ query, page, tag }: Props) {
    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [search, setSearch] = useState('')
+    const [currentPage, setCurrentPage] = useState(page);
+    const [search, setSearch] = useState(query)
     const {data,isError,isLoading,isSuccess} = useQuery({
-        queryKey: ['notes', search, currentPage],
-        queryFn: () => fetchNotes(search,currentPage),
+        queryKey: ['notes', search, currentPage,tag],
+        queryFn: () => fetchNotes(search,currentPage,tag),
         placeholderData: keepPreviousData,
         
     })

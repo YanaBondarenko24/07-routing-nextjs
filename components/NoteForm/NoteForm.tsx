@@ -42,7 +42,7 @@ export default function NoteForm({ onCancel}:NoteFormProps) {
   mutationFn: createNote,
 
   onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['note'] });
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
     toast.success('Successfully created!');
     onCancel();
   },
