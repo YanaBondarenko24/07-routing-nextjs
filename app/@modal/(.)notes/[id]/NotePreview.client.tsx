@@ -6,11 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import Modal from '@/components/Modal/Modal'
 
 
+
 export default function NotePreviewClient() {
     const router = useRouter();
      const { id } = useParams<{ id: string }>();
     const { data, isLoading, error } = useQuery({
-        queryKey: ['notes', id],
+        queryKey: ['note', id],
         queryFn: () => fetchNoteById(id),
         refetchOnMount: false,
     });
