@@ -3,7 +3,8 @@ import css from './NotePreview.module.css'
 import { useRouter,useParams } from "next/navigation";
 import { fetchNoteById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
-import { createPortal } from 'react-dom';
+import Modal from '@/components/Modal/Modal'
+
 
 export default function NotePreviewClient() {
     const router = useRouter();
@@ -17,22 +18,8 @@ export default function NotePreviewClient() {
 
     if (error || !data) return <p>Something went wrong.</p>;
 
-  return createPortal(
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-     <div className={css.container}>
+  return (<Modal onClose={() => router.back()}>
+    <div className={css.container}>
 	<div className={css.item}>
 	  <div className={css.header}>
 	    <h2>{data.title}</h2>
@@ -43,6 +30,5 @@ export default function NotePreviewClient() {
       <button className={css.backBtn } onClick={() => router.back()}>Close</button>
 	</div>
 </div>
-      </div>,document.body
-  );
+  </Modal>)
 }
